@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BookScape - Book Hunt</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="header">
+
+        <div class="logo">
+            <div class="logo-box">B</div>
+
+            <div>
+                <h1>BookScape</h1>
+                <p>Discover your next great read</p>
+            </div>
+        </div>
+
+        <div class="status" id="status">
+            Ready
+        </div>
+
+    </header>
+
+
+    
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <p class="tag">BOOK DISCOVERY</p>
+
+            <h2>
+                Find a book
+                <span>you'll love.</span>
+            </h2>
+
+            <p class="description">
+                Search books, explore authors and discover
+                your next favourite read.
+            </p>
+
+
+            
+            <div class="search-container">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search by book title or author..."
+                >
+
+                <button onclick="searchBooks()">
+                    Search
+                </button>
+
+            </div>
+
+
+            
+            <div class="quick">
+
+                <span>Popular:</span>
+
+                <button onclick="quickSearch('Harry Potter')">
+                    Harry Potter
+                </button>
+
+                <button onclick="quickSearch('The Hobbit')">
+                    The Hobbit
+                </button>
+
+                <button onclick="quickSearch('Python')">
+                    Python
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    
+    <main class="main">
+
+        <div class="top-section">
+
+            <div>
+                <h2>Explore Books</h2>
+
+                <p id="resultText">
+                    Loading books...
+                </p>
+            </div>
+
+
+            
+            <select id="sortSelect" onchange="sortBooks()">
+
+                <option value="default">
+                    Sort: Relevance
+                </option>
+
+                <option value="title">
+                    Title A-Z
+                </option>
+
+                <option value="newest">
+                    Newest First
+                </option>
+
+                <option value="oldest">
+                    Oldest First
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="layout">
+
+
+            
+            <aside class="sidebar">
+
+                <div class="filter-box">
+
+                    <h3>Filters</h3>
+
+
+                    <label>Author</label>
+
+                    <input
+                        type="text"
+                        id="authorFilter"
+                        placeholder="Enter author"
+                        oninput="applyFilters()"
+                    >
+
+
+                    <label>Publication Year</label>
+
+                    <select
+                        id="yearFilter"
+                        onchange="applyFilters()"
+                    >
+
+                        <option value="all">
+                            All Years
+                        </option>
+
+                        <option value="2020">
+                            2020+
+                        </option>
+
+                        <option value="2010">
+                            2010-2019
+                        </option>
+
+                        <option value="2000">
+                            2000-2009
+                        </option>
+
+                        <option value="1900">
+                            1900-1999
+                        </option>
+
+                        <option value="old">
+                            Before 1900
+                        </option>
+
+                    </select>
+
+
+                    <button
+                        class="clear-btn"
+                        onclick="clearFilters()"
+                    >
+                        Clear Filters
+                    </button>
+
+                </div>
+
+
+                <div class="tip">
+
+                    <h3>💡 Tip</h3>
+
+                    <p>
+                        Try searching by title, author or
+                        a popular keyword.
+                    </p>
+
+                </div>
+
+            </aside>
+
+
+        
+            <section class="results">
+
+                <div
+                    id="bookGrid"
+                    class="book-grid"
+                ></div>
+
+
+                <div
+                    id="emptyMessage"
+                    class="empty hidden"
+                >
+
+                    <h2>📚</h2>
+
+                    <h3>No books found</h3>
+
+                    <p>
+                        Try another search or clear the filters.
+                    </p>
+
+                </div>
+
+
+            
+                <div
+                    id="pagination"
+                    class="pagination"
+                ></div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- BOOK DETAILS POPUP -->
+    <div
+        id="modal"
+        class="modal hidden"
+    >
+
+        <div class="modal-box">
+
+            <button
+                class="close"
+                onclick="closeModal()"
+            >
+                ×
+            </button>
+
+            <div id="modalContent"></div>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
