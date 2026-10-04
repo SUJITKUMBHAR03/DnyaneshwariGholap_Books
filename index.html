@@ -1,72 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>BookScape - Book Hunt</title>
-
+    <title>BookHunt - Open Library</title>
     <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-    <header class="header">
+
+    <header>
 
         <div class="logo">
-            <div class="logo-box">B</div>
-
-            <div>
-                <h1>BookScape</h1>
-                <p>Discover your next great read</p>
-            </div>
+            📚 BookHunt
         </div>
 
-        <div class="status" id="status">
-            Ready
-        </div>
+        <nav>
+
+            <a href="#home">
+                Home
+            </a>
+
+            <a href="#results">
+                Books
+            </a>
+
+        </nav>
 
     </header>
 
 
-    
-    <section class="hero">
-
-        <div class="hero-content">
-
-            <p class="tag">BOOK DISCOVERY</p>
-
-            <h2>
-                Find a book
-                <span>you'll love.</span>
-            </h2>
-
-            <p class="description">
-                Search books, explore authors and discover
-                your next favourite read.
-            </p>
 
 
-            
-            <div class="search-container">
+    <section class="hero" id="home">
 
-                <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Search by book title or author..."
-                >
+        <div class="tag">
+            OPEN LIBRARY API
+        </div>
 
-                <button onclick="searchBooks()">
-                    Search
+        <h1>
+            Discover
+            <span>Books</span>
+        </h1>
+
+        <p>
+            Search books and explore detailed information
+            including authors, publishers, ISBN, subjects,
+            description and publication details.
+        </p>
+
+
+        <div class="search-box">
+
+            <div class="search-row">
+
+                <input type="text" id="searchInput" placeholder="Enter book title or author...">
+
+                <button id="searchBtn">
+                    🔍 Search
                 </button>
 
             </div>
 
 
-            
+            <div class="search-type">
+
+                <label>
+
+                    <input type="radio" name="searchType" value="title" checked>
+
+                    Title Search
+
+                </label>
+
+
+                <label>
+
+                    <input type="radio" name="searchType" value="q">
+
+                    Search Everything
+
+                </label>
+
+            </div>
+
+
             <div class="quick">
 
-                <span>Popular:</span>
+                <span>
+                    Popular:
+                </span>
 
                 <button onclick="quickSearch('Harry Potter')">
                     Harry Potter
@@ -74,6 +104,10 @@
 
                 <button onclick="quickSearch('The Hobbit')">
                     The Hobbit
+                </button>
+
+                <button onclick="quickSearch('Sherlock Holmes')">
+                    Sherlock Holmes
                 </button>
 
                 <button onclick="quickSearch('Python')">
@@ -87,37 +121,44 @@
     </section>
 
 
-    
-    <main class="main">
 
-        <div class="top-section">
+    <main id="results">
+
+        <div class="top">
 
             <div>
-                <h2>Explore Books</h2>
 
-                <p id="resultText">
-                    Loading books...
+                <div class="label">
+                    BOOK RESULTS
+                </div>
+
+                <h2>
+                    Explore Books
+                </h2>
+
+                <p id="resultInfo">
+                    Search for a book.
                 </p>
+
             </div>
 
 
-            
-            <select id="sortSelect" onchange="sortBooks()">
+            <select id="sort">
 
-                <option value="default">
+                <option value="relevance">
                     Sort: Relevance
+                </option>
+
+                <option value="new">
+                    Newest First
+                </option>
+
+                <option value="old">
+                    Oldest First
                 </option>
 
                 <option value="title">
                     Title A-Z
-                </option>
-
-                <option value="newest">
-                    Newest First
-                </option>
-
-                <option value="oldest">
-                    Oldest First
                 </option>
 
             </select>
@@ -125,146 +166,211 @@
         </div>
 
 
-        <div class="layout">
+        <div id="loading" class="hidden">
+
+            <div class="spinner"></div>
+
+            <p>
+                Loading books...
+            </p>
+
+        </div>
 
 
-            
-            <aside class="sidebar">
-
-                <div class="filter-box">
-
-                    <h3>Filters</h3>
+        <div id="books"></div>
 
 
-                    <label>Author</label>
+        <div class="pagination">
 
-                    <input
-                        type="text"
-                        id="authorFilter"
-                        placeholder="Enter author"
-                        oninput="applyFilters()"
-                    >
+            <button id="previous">
+                ← Previous
+            </button>
 
+            <span id="page">
+                Page 1
+            </span>
 
-                    <label>Publication Year</label>
-
-                    <select
-                        id="yearFilter"
-                        onchange="applyFilters()"
-                    >
-
-                        <option value="all">
-                            All Years
-                        </option>
-
-                        <option value="2020">
-                            2020+
-                        </option>
-
-                        <option value="2010">
-                            2010-2019
-                        </option>
-
-                        <option value="2000">
-                            2000-2009
-                        </option>
-
-                        <option value="1900">
-                            1900-1999
-                        </option>
-
-                        <option value="old">
-                            Before 1900
-                        </option>
-
-                    </select>
-
-
-                    <button
-                        class="clear-btn"
-                        onclick="clearFilters()"
-                    >
-                        Clear Filters
-                    </button>
-
-                </div>
-
-
-                <div class="tip">
-
-                    <h3>💡 Tip</h3>
-
-                    <p>
-                        Try searching by title, author or
-                        a popular keyword.
-                    </p>
-
-                </div>
-
-            </aside>
-
-
-        
-            <section class="results">
-
-                <div
-                    id="bookGrid"
-                    class="book-grid"
-                ></div>
-
-
-                <div
-                    id="emptyMessage"
-                    class="empty hidden"
-                >
-
-                    <h2>📚</h2>
-
-                    <h3>No books found</h3>
-
-                    <p>
-                        Try another search or clear the filters.
-                    </p>
-
-                </div>
-
-
-            
-                <div
-                    id="pagination"
-                    class="pagination"
-                ></div>
-
-            </section>
+            <button id="next">
+                Next →
+            </button>
 
         </div>
 
     </main>
 
 
-    <!-- BOOK DETAILS POPUP -->
-    <div
-        id="modal"
-        class="modal hidden"
-    >
+
+    <div id="modal" class="modal hidden">
 
         <div class="modal-box">
 
-            <button
-                class="close"
-                onclick="closeModal()"
-            >
+            <button id="close" class="close">
                 ×
             </button>
 
-            <div id="modalContent"></div>
+
+            <div class="modal-grid">
+
+
+                <div>
+
+                    <img id="modalCover" class="modal-cover" src="" alt="Book Cover">
+
+                </div>
+
+
+                <div class="modal-info">
+
+                    <h2 id="modalTitle">
+                        Book Title
+                    </h2>
+
+
+                    <div class="info">
+
+                        <strong>
+                            Author:
+                        </strong>
+
+                        <span id="modalAuthor">
+                        </span>
+
+                    </div>
+
+
+                    <div class="info">
+
+                        <strong>
+                            First Published:
+                        </strong>
+
+                        <span id="modalYear">
+                        </span>
+
+                    </div>
+
+
+                    <div class="info">
+
+                        <strong>
+                            Edition Count:
+                        </strong>
+
+                        <span id="modalEdition">
+                        </span>
+
+                    </div>
+
+
+                    <div class="info">
+
+                        <strong>
+                            Publisher:
+                        </strong>
+
+                        <span id="modalPublisher">
+                        </span>
+
+                    </div>
+
+
+                    <div class="info">
+
+                        <strong>
+                            ISBN:
+                        </strong>
+
+                        <span id="modalISBN">
+                        </span>
+
+                    </div>
+
+
+                    <div class="info">
+
+                        <strong>
+                            Languages:
+                        </strong>
+
+                        <span id="modalLanguage">
+                        </span>
+
+                    </div>
+
+
+                    <div class="info">
+
+                        <strong>
+                            Pages:
+                        </strong>
+
+                        <span id="modalPages">
+                        </span>
+
+                    </div>
+
+
+                    <div class="info">
+
+                        <strong>
+                            eBook:
+                        </strong>
+
+                        <span id="modalEbook">
+                        </span>
+
+                    </div>
+
+
+                    <div class="info">
+
+                        <strong>
+                            Description:
+                        </strong>
+
+                        <p id="modalDescription" class="description">
+                        </p>
+
+                    </div>
+
+
+                    <div class="info">
+
+                        <strong>
+                            Subjects:
+                        </strong>
+
+                        <div id="modalSubjects" class="subjects">
+                        </div>
+
+                    </div>
+
+
+                    <a id="libraryLink" class="open-library" target="_blank">
+                        Open in Open Library
+                    </a>
+
+                </div>
+
+            </div>
 
         </div>
 
     </div>
 
 
+
+
+
+    <footer>
+
+        <p>
+            © 2026 BookHunt | Open Library API
+        </p>
+
+    </footer>
     <script src="script.js"></script>
 
 </body>
+
 </html>
